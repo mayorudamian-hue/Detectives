@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4XH1NZFRKJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4XH1NZFRKJ');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detectives Matemáticos</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#0a0a0c">
+
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --negro: #0a0a0c;
+  --gris-oscuro: #111115;
+  --gris-panel: #16161c;
+  --gris-borde: #2a2a35;
+  --oro: #c9a84c;
+  --oro-claro: #e8c96a;
+  --rojo: #c0392b;
+  --verde: #1e7a4a;
+  --texto: #d4cfc5;
+  --texto-suave: #7a7570;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background-color: var(--negro);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, #1a1200 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, #0d0a1a 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  color: var(--texto);
+  min-height: 100vh;
+}
+
+.screen { display: none; }
+.active { display: block; }
+
+/* ── PANTALLA INICIO ── */
+#inicio {
+  min-height: 100vh;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  gap: 20px;
+}
+#inicio.active { display: flex; }
+
+.logo-wrap {
+  text-align: center;
+  animation: aparecer 0.8s ease both;
+}
+
+.logo-icono {
+  font-size: 64px;
+  display: block;
+  filter: drop-shadow(0 0 20px rgba(201,168,76,0.5));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+h1 {
+  font-family: 'Special Elite', serif;
+  font-size: 2.2rem;
+  color: var(--oro);
+  text-shadow: 0 0 30px rgba(201,168,76,0.4);
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.subtitulo {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.panel-inicio {
+  background: var(--gris-panel);
+  border: 1px solid var(--gris-borde);
+  border-top: 2px solid var(--oro);
+  border-radius: 4px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  animation: aparecer 0.8s ease 0.2s both;
+}
+
+.label-campo {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 8px;
+}
+
+select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  color: var(--texto);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  appearance: none;
+  cursor: pointer;
+}
+
+select:focus { outline: none; border-color: var(--oro); }
+
+.btn-primario {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #b8962a, #c9a84c, #b8962a);
+  border: none;
+  border-radius: 3px;
+  color: #0a0800;
+  font-family: 'Special Elite', serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.btn-primario:hover {
+  background: linear-gradient(135deg, #c9a84c, #e8c96a, #c9a84c);
+  box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  transform: translateY(-1px);
+}
+
+/* ── MODO SELECTOR ── */
+.modo-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.modo-btn {
+  flex: 1;
+  padding: 12px 8px;
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  color: var(--texto-suave);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.18s;
+  width: auto;
+}
+
+.modo-btn span { font-size: 1.4rem; }
+.modo-btn strong { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; letter-spacing: 1px; color: var(--texto); }
+.modo-btn small { font-size: 0.7rem; letter-spacing: 1px; color: var(--texto-suave); }
+
+.modo-btn.activo {
+  border-color: var(--oro);
+  background: rgba(201,168,76,0.08);
+}
+
+.modo-btn.activo strong { color: var(--oro-claro); }
+
+.aviso-modo {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 3px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.aviso-modo strong { color: var(--oro); }
+
+/* ── NÚMERO SECRETO (modo solitario) ── */
+.numero-secreto-wrap {
+  text-align: center;
+  padding: 12px 16px;
+  background: rgba(201,168,76,0.05);
+  border: 1px dashed rgba(201,168,76,0.2);
+  border-radius: 3px;
+  margin-bottom: 10px;
+  animation: aparecer 0.4s ease;
+}
+
+.numero-secreto-label {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 6px;
+}
+
+.numero-secreto-valor {
+  font-family: 'Special Elite', serif;
+  font-size: 3rem;
+  color: var(--oro-claro);
+  text-shadow: 0 0 20px rgba(201,168,76,0.4);
+  display: block;
+}
+
+.respuesta-auto {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: aparecer 0.2s ease;
+}
+
+.respuesta-auto.si {
+  background: rgba(30,122,74,0.2);
+  color: #5dca8a;
+  border: 1px solid rgba(30,122,74,0.4);
+}
+
+.respuesta-auto.no {
+  background: rgba(192,57,43,0.2);
+  color: #e87a70;
+  border: 1px solid rgba(192,57,43,0.4);
+}
+
+/* ── PANTALLA JUEGO ── */
+#juego {
+  padding: 0;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.juego-header {
+  background: var(--gris-panel);
+  border-bottom: 1px solid var(--gris-borde);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.juego-titulo {
+  font-family: 'Special Elite', serif;
+  font-size: 1rem;
+  color: var(--oro);
+  letter-spacing: 1px;
+}
+
+.marcador {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.marcador-item {
+  text-align: center;
+}
+
+.marcador-num {
+  font-family: 'Special Elite', serif;
+  font-size: 1.4rem;
+  color: var(--oro-claro);
+  line-height: 1;
+  display: block;
+}
+
+.marcador-label {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+}
+
+.barra-puntos-wrap {
+  padding: 10px 20px 0;
+}
+
+.barra-puntos {
+  height: 4px;
+  background: var(--gris-borde);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barra-puntos-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--oro), var(--oro-claro));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+  width: 100%;
+}
+
+.seccion {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+.seccion-titulo {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seccion-titulo::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gris-borde);
+}
+
+/* ── CARTAS DE PISTA ── */
+.cartas-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.carta-pista {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-left: 3px solid var(--oro);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--texto);
+  letter-spacing: 0.5px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s;
+  width: 100%;
+}
+
+.carta-pista:hover:not(:disabled) {
+  background: #1e1e25;
+  border-left-color: var(--oro-claro);
+  box-shadow: 0 2px 12px rgba(201,168,76,0.15);
+  transform: translateX(3px);
+}
+
+.carta-pista:disabled {
+  border-left-color: #333;
+  color: var(--texto-suave);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.carta-pista.bloqueada-juego {
+  border-left-color: #3a2a00;
+  background: #0e0e12;
+}
+
+/* ── INPUT CUSTOM ── */
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+input[type="text"], input:not([type]) {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 10px 12px;
+  color: var(--texto);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  flex: 1;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus, input:not([type]):focus {
+  outline: none;
+  border-color: var(--oro);
+}
+
+input::placeholder { color: var(--texto-suave); }
+
+.btn-secundario {
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  color: var(--texto);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.btn-secundario:hover {
+  border-color: var(--oro);
+  color: var(--oro);
+}
+
+/* ── TABLA REGISTRO ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead tr {
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+th {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  padding: 8px 6px;
+  font-weight: 600;
+  text-align: center;
+}
+
+td {
+  padding: 8px 6px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #1a1a22;
+  text-align: center;
+  vertical-align: middle;
+}
+
+tbody tr {
+  animation: filaEntrar 0.3s ease both;
+}
+
+@keyframes filaEntrar {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+tr.respuesta-si td { background: rgba(30, 122, 74, 0.12); }
+tr.respuesta-no td { background: rgba(192, 57, 43, 0.1); }
+
+.btn-resp {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 2px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-si {
+  background: var(--verde);
+  color: #d4f5e2;
+}
+.btn-si:hover { background: #25a060; box-shadow: 0 0 8px rgba(30,122,74,0.4); }
+
+.btn-no {
+  background: var(--rojo);
+  color: #fde8e6;
+}
+.btn-no:hover { background: #e74c3c; box-shadow: 0 0 8px rgba(192,57,43,0.4); }
+
+.badge-si {
+  background: rgba(30,122,74,0.2);
+  color: #5dca8a;
+  border: 1px solid rgba(30,122,74,0.4);
+  border-radius: 2px;
+  padding: 2px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.badge-no {
+  background: rgba(192,57,43,0.2);
+  color: #e87a70;
+  border: 1px solid rgba(192,57,43,0.4);
+  border-radius: 2px;
+  padding: 2px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+td input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--gris-borde);
+  border-radius: 0;
+  padding: 4px 4px;
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--texto);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+td input:focus { outline: none; border-bottom-color: var(--oro); }
+
+/* ── HIPÓTESIS Y ACCIONES ── */
+.hipotesis-wrap {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.btn-revelar {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #8b1a1a, #c0392b);
+  border: none;
+  border-radius: 3px;
+  color: white;
+  font-family: 'Special Elite', serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-revelar:hover {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  box-shadow: 0 0 16px rgba(192,57,43,0.4);
+}
+
+.acciones-row {
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px;
+}
+
+.btn-accion {
+  flex: 1;
+  padding: 11px;
+  background: transparent;
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  color: var(--texto-suave);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-transform: uppercase;
+}
+
+.btn-accion:hover {
+  border-color: var(--texto-suave);
+  color: var(--texto);
+}
+
+/* ── MODAL RESULTADO ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.visible {
+  display: flex;
+  animation: aparecer 0.25s ease;
+}
+
+.modal {
+  background: var(--gris-panel);
+  border: 1px solid var(--gris-borde);
+  border-top: 3px solid var(--oro);
+  border-radius: 4px;
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.modal.estado-acerto { 
+  border-top-color: #1e7a4a;
+  box-shadow: 0 0 40px rgba(30, 122, 74, 0.3);
+  transform: scale(1.05);
+  animation: modalWin 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes modalWin {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1.05); opacity: 1; }
+}
+
+.modal.estado-acerto .modal-icono {
+  font-size: 72px;
+  animation: pulsoGanador 1.5s ease-in-out infinite;
+}
+
+.modal.estado-acerto .modal-titulo {
+  font-size: 2rem;
+  color: #5dca8a;
+  text-shadow: 0 0 15px rgba(93, 202, 138, 0.4);
+  margin-bottom: 12px;
+}
+
+.modal.estado-acerto .modal-puntos {
+  font-size: 3.5rem;
+  text-shadow: 0 0 20px rgba(93, 202, 138, 0.3);
+}
+
+@keyframes pulsoGanador {
+  0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 5px rgba(93,202,138,0.3)); }
+  50% { transform: scale(1.15) translateY(-5px); filter: drop-shadow(0 0 20px rgba(93,202,138,0.6)); }
+}
+
+.modal.estado-fallo  { border-top-color: var(--rojo); }
+
+.modal-fase { display: none; }
+.modal-fase.activa { display: block; }
+
+.modal-icono {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.modal-titulo {
+  font-family: 'Special Elite', serif;
+  font-size: 1.3rem;
+  color: var(--oro);
+  margin-bottom: 8px;
+}
+
+/* Fase 1 – hipótesis */
+.hipotesis-mostrada {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 14px 16px;
+  font-family: 'Special Elite', serif;
+  font-size: 1.1rem;
+  color: var(--oro-claro);
+  margin: 16px 0 8px;
+  min-height: 48px;
+  word-break: break-word;
+}
+
+.modal-sub {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.validar-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-validar {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 3px;
+  font-family: 'Special Elite', serif;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-validar-si {
+  background: linear-gradient(135deg, #1e7a4a, #25a060);
+  color: #d4f5e2;
+}
+.btn-validar-si:hover {
+  background: linear-gradient(135deg, #25a060, #2ecc71);
+  box-shadow: 0 0 16px rgba(30,122,74,0.4);
+}
+
+.btn-validar-no {
+  background: linear-gradient(135deg, #8b1a1a, #c0392b);
+  color: #fde8e6;
+}
+.btn-validar-no:hover {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  box-shadow: 0 0 16px rgba(192,57,43,0.4);
+}
+
+/* Fase 2 – resultado */
+.modal-puntos {
+  font-size: 2.8rem;
+  font-family: 'Special Elite', serif;
+  color: var(--oro-claro);
+  margin: 16px 0 4px;
+}
+
+.modal-puntos.color-verde { color: #5dca8a; }
+.modal-puntos.color-rojo  { color: #e87a70; }
+
+.modal-label {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.modal-total {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  margin-bottom: 24px;
+}
+
+.modal-total span {
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.modal-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #b8962a, #c9a84c);
+  border: none;
+  border-radius: 3px;
+  color: #0a0800;
+  font-family: 'Special Elite', serif;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+}
+
+.modal-btn:hover {
+  background: linear-gradient(135deg, #c9a84c, #e8c96a);
+  box-shadow: 0 0 16px rgba(201,168,76,0.3);
+}
+
+.modal-btn-sec {
+  width: 100%;
+  padding: 11px;
+  background: transparent;
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  color: var(--texto-suave);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-transform: uppercase;
+}
+
+.pasar-dispositivo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0 16px;
+  padding: 10px 14px;
+  background: rgba(201,168,76,0.07);
+  border: 1px dashed rgba(201,168,76,0.3);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  color: var(--oro);
+  text-transform: uppercase;
+}
+
+.modal-btn-sec:hover { border-color: var(--texto-suave); color: var(--texto); }
+
+/* ── RACHA ── */
+.racha-badge {
+  display: inline-block;
+  margin: 0 auto 16px;
+  padding: 6px 14px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--oro-claro);
+  letter-spacing: 1px;
+  animation: aparecer 0.3s ease;
+}
+
+/* ── RESUMEN ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 10px 4px;
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-family: 'Special Elite', serif;
+  font-size: 1.4rem;
+  color: var(--oro-claro);
+  line-height: 1;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+.resumen-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.resumen-fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  border-left: 3px solid transparent;
+}
+
+.resumen-ok   { background: rgba(30,122,74,0.1);  border-left-color: var(--verde); }
+.resumen-fail { background: rgba(192,57,43,0.1);  border-left-color: var(--rojo); }
+
+.resumen-num     { color: var(--texto-suave); font-size: 0.75rem; min-width: 24px; }
+.resumen-icono   { font-size: 0.8rem; min-width: 16px; }
+.resumen-ok .resumen-icono   { color: #5dca8a; }
+.resumen-fail .resumen-icono { color: #e87a70; }
+.resumen-preguntas { flex: 1; color: var(--texto); }
+.resumen-pts { color: var(--texto-suave); font-size: 0.8rem; }
+
+.pista-inicial-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 3px;
+}
+
+.pista-inicial-label {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  white-space: nowrap;
+}
+
+#pistaInicial {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--oro-claro);
+}
+
+/* ── ESPERANDO RESPUESTA ── */
+.esperando-badge {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: var(--oro);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.esperando-badge.visible { display: flex; }
+
+.pulso {
+  width: 7px; height: 7px;
+  background: var(--oro);
+  border-radius: 50%;
+  animation: pulso 1s ease-in-out infinite;
+}
+
+@keyframes pulso {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.7); }
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── BONUS FLASH ── */
+@keyframes bonusFlash {
+  0%   { background: rgba(201,168,76,0.3); }
+  100% { background: transparent; }
+}
+
+.bonus-activo { animation: bonusFlash 0.6s ease; }
+
+/* ── TEXTAREA DEDUCCIONES ── */
+textarea#deducciones {
+  width: 100%;
+  min-height: 90px;
+  background: var(--gris-oscuro);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 10px 12px;
+  color: var(--texto);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+textarea#deducciones:focus {
+  outline: none;
+  border-color: var(--oro);
+}
+
+textarea#deducciones::placeholder { color: var(--texto-suave); }
+
+</style>
+</head>
+
+<body>
+
+<div id="inicio" class="screen active">
+  <div class="logo-wrap">
+    <span class="logo-icono">🕵️</span>
+    <h1>Detectives Matemáticos</h1>
+    <p class="subtitulo">Unidad de Investigación</p>
+  </div>
+
+  <div class="panel-inicio">
+    <label class="label-campo">Modo de juego</label>
+    <div class="modo-selector">
+      <button class="modo-btn activo" id="btnModoGrupal" onclick="seleccionarModo('grupal')">
+        <span>👥</span>
+        <strong>Grupal</strong>
+        <small>Otro equipo valida</small>
+      </button>
+      <button class="modo-btn" id="btnModoSolitario" onclick="seleccionarModo('solitario')">
+        <span>🕵️</span>
+        <strong>Solitario</strong>
+        <small>El juego valida</small>
+      </button>
+    </div>
+
+    <label class="label-campo" for="tema" style="margin-top:14px">Seleccionar tema</label>
+    <select id="tema">
+      <option value="numeros">Números</option>
+      <option value="ecuaciones">Ecuaciones</option>
+      <option value="funciones">Funciones</option>
+      <option value="inecuaciones">Inecuaciones</option>
+      <option value="fracciones">Fracciones y decimales</option>
+      <option value="geometria">Geometría</option>
+      <option value="divisibilidad">Reglas de divisibilidad</option>
+    </select>
+    <div id="configSolitario" style="display:none" class="aviso-modo">
+      <label class="label-campo" style="margin-top:0px">Tema Solitario</label>
+      <select id="temaSolitario" style="margin-bottom:12px; padding:8px 10px; font-size:0.9rem;">
+        <option value="numeros">Números</option>
+        <option value="divisibilidad_solo">Reglas de divisibilidad (2, 3, 4, 5, 6, 10)</option>
+      </select>
+      <label class="label-campo">Dificultad (Rango de Números)</label>
+      <select id="dificultadSolitario" style="margin-bottom:4px; padding:8px 10px; font-size:0.9rem;">
+        <option value="novato">Novato (1 al 50)</option>
+        <option value="detective" selected>Detective (1 al 100)</option>
+        <option value="sherlock">Sherlock (-999 al 1000)</option>
+      </select>
+    </div>
+    <button class="btn-primario" onclick="iniciar()">⚡ Iniciar misión</button>
+    <button onclick="abrirPerfil()" style="margin-top:12px; width:100%; padding:14px; border:1px solid var(--oro); border-radius:4px; background:rgba(212,175,55,0.1); color:var(--oro); font-family:'Special Elite', serif; font-size:1.1rem; cursor:pointer; transition:0.2s;">👤 Mi perfil y Logros</button>
+  </div>
+</div>
+
+<div id="juego" class="screen">
+  <div class="juego-header">
+    <span class="juego-titulo" id="tituloTema">—</span>
+    <div class="marcador">
+      <div class="marcador-item">
+        <span class="marcador-num" id="puntos">50</span>
+        <span class="marcador-label">Ronda</span>
+      </div>
+      <div class="marcador-item">
+        <span class="marcador-num" id="total">0</span>
+        <span class="marcador-label">Total</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="barra-puntos-wrap">
+    <div class="barra-puntos">
+      <div class="barra-puntos-fill" id="barrapuntos"></div>
+    </div>
+  </div>
+
+  <div class="seccion" id="seccionPistaInicial" style="display:none; padding-bottom:12px; border-bottom:1px solid var(--gris-borde);">
+    <div class="pista-inicial-wrap" style="margin-bottom:0;">
+      <span class="pista-inicial-label">Sargento:</span>
+      <span id="pistaInicial">—</span>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-titulo">🗂 Pistas disponibles</div>
+    <div class="esperando-badge" id="esperandoBadge">
+      <span class="pulso"></span>
+      Esperando respuesta...
+    </div>
+    <div class="cartas-grid" id="cartas"></div>
+  </div>
+
+  <div class="seccion" id="seccionPistaPersonalizada">
+    <div class="input-row">
+      <input id="nuevaPregunta" type="text" placeholder="¿Es múltiplo de 3?">
+      <button class="btn-secundario" onclick="agregarPregunta()">+ Agregar</button>
+    </div>
+  </div>
+
+  <div class="seccion" id="seccionPistaConstructor" style="display:none">
+    <div class="seccion-titulo">🛠 Construir Pista (Cuesta 1 pt)</div>
+    <div class="input-row" style="gap:4px;">
+      <select id="constTipo" style="margin-bottom:0; flex:2;">
+        <option value="multiplo">¿Es múltiplo de...?</option>
+        <option value="mayor">¿Es mayor que...?</option>
+        <option value="menor">¿Es menor que...?</option>
+        <option value="termina">¿Termina en...?</option>
+      </select>
+      <input id="constValor" type="number" placeholder="Ej: 5" style="width:70px; flex:1;">
+      <button class="btn-secundario" onclick="construirPregunta()" style="flex:1;">Preguntar</button>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-titulo">📋 Registro de pistas</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Pregunta</th><th>Resp.</th><th>Sospechosos</th></tr>
+      </thead>
+      <tbody id="tabla"></tbody>
+    </table>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-titulo">🧠 Deducciones del equipo</div>
+    <textarea id="deducciones" placeholder="Anotá acá lo que van descubriendo con cada pista..."></textarea>
+  </div>
+
+  <div class="seccion">
+    <div class="seccion-titulo">🎯 Hipótesis final</div>
+    <div class="hipotesis-wrap" style="margin-bottom:4px;">
+      <input id="hipotesis" type="text" placeholder="Tu conclusión...">
+      <button class="btn-revelar" onclick="arriesgar()">🔍 Revelar</button>
+    </div>
+    <div id="feedbackIntentos" style="color:var(--rojo); font-size:0.8rem; font-weight:bold; display:none; margin-bottom:8px;"></div>
+  </div>
+
+  <div class="acciones-row">
+    <button class="btn-accion" onclick="intentarNuevaRonda()">↺ Nueva misión</button>
+    <button class="btn-accion" onclick="intentarReiniciar()">⟳ Reiniciar</button>
+  </div>
+</div>
+
+<!-- Modal resultado -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+
+    <!-- FASE 1: mostrar hipótesis, esperar validación del maestro -->
+    <div class="modal-fase activa" id="modalFase1">
+      <span class="modal-icono">🔍</span>
+      <div class="modal-titulo">Hipótesis presentada</div>
+      <div class="modal-sub">El detective concluye que...</div>
+      <div class="hipotesis-mostrada" id="modalHipotesis">—</div>
+      <div class="modal-sub" style="margin-top:16px">¿Es correcto?</div>
+      <div id="numeroSecretoWrap" style="display:none" class="numero-secreto-wrap">
+        <div class="numero-secreto-label">El número era</div>
+        <span class="numero-secreto-valor" id="numeroSecretoRevelado"></span>
+      </div>
+      <div class="pasar-dispositivo">
+        <span>📱</span> Pasá el dispositivo al otro equipo
+      </div>
+      <div class="validar-row">
+        <button class="btn-validar btn-validar-si" onclick="validarHipotesis(true)">✓ Correcto</button>
+        <button class="btn-validar btn-validar-no" onclick="validarHipotesis(false)">✗ Incorrecto</button>
+      </div>
+    </div>
+
+    <!-- FASE 2: resultado con puntos -->
+    <div class="modal-fase" id="modalFase2">
+      <span class="modal-icono" id="modalIcono">🏆</span>
+      <div class="modal-titulo" id="modalTitulo">Caso cerrado</div>
+      <div class="modal-puntos" id="modalPuntos">10</div>
+      <div class="modal-label" id="modalLabelPuntos">puntos esta ronda</div>
+      <div class="modal-total" id="modalTotal">Total acumulado: <span>0</span></div>
+      <div class="racha-badge" id="rachaActual" style="display:none"></div>
+      <button class="modal-btn" onclick="cerrarModalNuevaRonda()">↺ Nueva misión</button>
+      <button class="modal-btn-sec" onclick="verResumen()" style="margin-bottom:8px">📊 Ver resumen</button>
+      <button class="modal-btn-sec" onclick="intentarReiniciar()">⟳ Reiniciar juego</button>
+    </div>
+
+    <!-- FASE 3: resumen de sesión -->
+    <div class="modal-fase" id="modalFase3">
+      <div class="modal-titulo" style="margin-bottom:16px">📊 Resumen de sesión</div>
+      <div id="resumenStats"></div>
+      <button class="modal-btn" onclick="cerrarModalNuevaRonda(); document.getElementById('modalFase3').classList.remove('activa');" style="margin-top:16px">↺ Nueva misión</button>
+      <button class="modal-btn-sec" onclick="intentarReiniciar()">⟳ Reiniciar juego</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Perfil -->
+<div class="modal-overlay" id="modalPerfilOverlay">
+  <div class="modal" style="border-top-color: var(--oro);">
+    <span class="modal-icono" style="margin-bottom:0;">👤</span>
+    <div class="modal-titulo" style="margin-bottom:16px;">Mi Perfil Histórico</div>
+    
+    <div id="perfilStats" style="display:flex; justify-content:space-around; margin-bottom:20px; font-size:0.9rem;"></div>
+
+    <div class="seccion-titulo" style="text-align:left; border-bottom:1px solid var(--oro); padding-bottom:4px; margin-bottom:12px;">Logros</div>
+    <div id="perfilLogros" style="display:flex; flex-direction:column; gap:8px; text-align:left; max-height:220px; overflow-y:auto; padding-right:4px;"></div>
+
+    <button class="modal-btn" style="margin-top:20px;" onclick="cerrarPerfil()">Volver</button>
+  </div>
+</div>
+
+<script>
+
+// ================== LÓGICA DEL JUEGO ==================
+
+const mazos = {
+  numeros: [
+    "¿Es un número par?",
+    "¿Es múltiplo de 3?",
+    "¿Es mayor que 20?",
+    "¿Tiene más de 4 divisores?",
+    "¿Es un cuadrado perfecto?",
+    "¿Es múltiplo de 5?",
+    "¿Es mayor que 50?",
+    "¿Es menor que 10?",
+    "¿Es un número primo?",
+    "¿Es múltiplo de 4?",
+    "¿Es menor que 100?",
+    "¿Tiene exactamente 2 divisores?",
+    "¿Es múltiplo de 6?",
+    "¿La suma de sus dígitos es mayor que 5?",
+    "¿Es un número impar?",
+    "¿Es divisible por 7?",
+    "¿Está entre 10 y 50?",
+    "¿Es mayor que 30?",
+    "¿Es un múltiplo de 10?",
+    "¿Tiene algún dígito repetido?",
+    "¿Es menor que 50?",
+    "¿Es mayor que 10?",
+    "¿Es mayor que 40?",
+    "¿Es menor que 30?",
+    "¿Está entre 20 y 40?",
+    "¿Está entre 40 y 70?",
+    "¿Está entre 50 y 80?",
+    "¿Está entre 1 y 20?",
+    "¿Está entre 60 y 99?",
+    "¿Es mayor que 70?",
+    "¿Es menor que 20?",
+    "¿Es mayor que 80?",
+    "¿Es menor que 40?",
+    "¿Es mayor que 60?",
+    "¿Empieza con el dígito 1?",
+    "¿Empieza con el dígito 2?",
+    "¿Empieza con el dígito 3?",
+    "¿Empieza con el dígito 4?",
+    "¿Empieza con el dígito 5?",
+    "¿Empieza con el dígito 6?",
+    "¿Empieza con el dígito 7?",
+    "¿Empieza con el dígito 8?",
+    "¿Empieza con el dígito 9?",
+    "¿Termina en 0?",
+    "¿Termina en 5?",
+    "¿Termina en un número par?",
+    "¿Termina en un número impar?",
+    "¿La suma de sus dígitos es menor que 5?",
+    "¿La suma de sus dígitos es par?",
+    "¿La suma de sus dígitos es mayor que 10?",
+    "¿La suma de sus dígitos es 9?",
+    "¿La suma de sus dígitos es menor que 10?",
+    "¿Es múltiplo de 8?",
+    "¿Es múltiplo de 9?",
+    "¿Es múltiplo de 11?",
+    "¿Es múltiplo de 12?",
+    "¿Es múltiplo de 7?",
+    "¿Es divisible por 2 y por 3?",
+    "¿Es un número de dos cifras?",
+    "¿Es un número de una cifra?",
+    "¿Tiene más de 6 divisores?",
+    "¿Es divisible por 4 y por 3?"
+  ],
+  ecuaciones: [
+    "¿Tiene una única solución?",
+    "¿La solución es un número entero?",
+    "¿La solución es positiva?",
+    "¿La solución es menor que 0?",
+    "¿La solución es mayor que 5?",
+    "¿La solución es un número par?",
+    "¿La solución es mayor que 10?",
+    "¿Tiene infinitas soluciones?",
+    "¿No tiene solución?",
+    "¿La solución está entre 0 y 1?",
+    "¿La solución es un número negativo?",
+    "¿La solución es un número fraccionario?",
+    "¿La solución es múltiplo de 3?",
+    "¿La solución es menor que 5?",
+    "¿La ecuación tiene grado 2?",
+    "¿La solución es mayor que 100?",
+    "¿La solución es igual a 0?",
+    "¿La ecuación tiene dos soluciones?",
+    "¿La solución es un número impar?",
+    "¿La solución es menor que -5?"
+  ],
+  funciones: [
+    "¿Es una función lineal?",
+    "¿Es creciente en todo su dominio?",
+    "¿Pasa por el origen?",
+    "¿Tiene pendiente positiva?",
+    "¿Corta el eje X?",
+    "¿Es una función constante?",
+    "¿Tiene pendiente negativa?",
+    "¿Corta el eje Y en un valor positivo?",
+    "¿Corta el eje Y en un valor negativo?",
+    "¿Su pendiente es mayor que 1?",
+    "¿Su ordenada al origen es mayor que 0?",
+    "¿Pasa por el punto (1, 1)?",
+    "¿Es decreciente?",
+    "¿Su pendiente es un número entero?",
+    "¿Corta el eje X en un valor positivo?",
+    "¿Su pendiente es menor que -1?",
+    "¿Pasa por el punto (0, 2)?",
+    "¿Su ordenada al origen es negativa?",
+    "¿Su pendiente es igual a 1?",
+    "¿Corta el eje Y en un valor mayor que 5?"
+  ],
+  inecuaciones: [
+    "¿Tiene infinitas soluciones?",
+    "¿Incluye números negativos?",
+    "¿Es un intervalo?",
+    "¿Incluye el número 0?",
+    "¿Incluye valores mayores que 10?",
+    "¿Las soluciones son todas positivas?",
+    "¿Las soluciones son todas negativas?",
+    "¿El intervalo es acotado?",
+    "¿Incluye el número 5?",
+    "¿Incluye valores entre -10 y 10?",
+    "¿El extremo del intervalo es positivo?",
+    "¿Es una inecuación de grado 1?",
+    "¿Incluye el número 1?",
+    "¿Las soluciones incluyen números mayores que 100?",
+    "¿El intervalo incluye su extremo (es cerrado)?",
+    "¿El intervalo es abierto?",
+    "¿Incluye el número -1?",
+    "¿Las soluciones incluyen números menores que -10?",
+    "¿El extremo del intervalo es un número entero?",
+    "¿Incluye valores mayores que 50?"
+  ],
+  fracciones: [
+    "¿Es mayor que 1?",
+    "¿Es menor que 1/2?",
+    "¿Es un número decimal exacto?",
+    "¿Es mayor que 0,5?",
+    "¿Tiene denominador par?",
+    "¿Es equivalente a un número entero?",
+    "¿Es menor que 0?",
+    "¿Está entre 0 y 1?",
+    "¿Su parte decimal tiene más de 2 cifras?",
+    "¿Es mayor que 2?",
+    "¿Es una fracción propia?",
+    "¿Es una fracción impropia?",
+    "¿Su numerador es mayor que su denominador?",
+    "¿Es equivalente a 1/2?",
+    "¿Se puede simplificar?",
+    "¿Es mayor que 0,75?",
+    "¿Tiene denominador 10 o 100?",
+    "¿Es un número periódico?",
+    "¿Es menor que 1/4?",
+    "¿Su denominador es múltiplo de 5?"
+  ],
+  geometria: [
+    "¿Tiene todos los lados iguales?",
+    "¿Tiene algún ángulo recto?",
+    "¿Es un polígono?",
+    "¿Tiene más de 4 lados?",
+    "¿Tiene ejes de simetría?",
+    "¿Es una figura plana?",
+    "¿Tiene todos sus ángulos iguales?",
+    "¿Sus diagonales se cortan en ángulo recto?",
+    "¿Tiene algún lado paralelo a otro?",
+    "¿Es un cuadrilátero?",
+    "¿Tiene exactamente 3 lados?",
+    "¿Su perímetro depende de un solo dato?",
+    "¿Tiene ángulos obtusos?",
+    "¿Tiene ángulos agudos?",
+    "¿Es un polígono regular?",
+    "¿Tiene algún eje de simetría diagonal?",
+    "¿Sus lados opuestos son iguales?",
+    "¿Sus ángulos interiores suman 360°?",
+    "¿Tiene algún lado curvo?",
+    "¿Puede teselar el plano?"
+  ],
+  divisibilidad: [
+    "¿Es divisible por 2?",
+    "¿Es divisible por 3?",
+    "¿Es divisible por 4?",
+    "¿Es divisible por 5?",
+    "¿Es divisible por 6?",
+    "¿Es divisible por 7?",
+    "¿Es divisible por 8?",
+    "¿Es divisible por 9?",
+    "¿Es divisible por 10?",
+    "¿Es divisible por 11?",
+    "¿La suma de sus dígitos es divisible por 3?",
+    "¿Sus dos últimas cifras forman un número divisible por 4?",
+    "¿Termina en 0 o 5?",
+    "¿Termina en 0?",
+    "¿Es divisible por 2 y por 3 a la vez?",
+    "¿La suma de sus dígitos es divisible por 9?",
+    "¿Es divisible por 4 y por 3 a la vez?",
+    "¿La diferencia entre la suma de dígitos alternos es divisible por 11?",
+    "¿Sus tres últimas cifras forman un número divisible por 8?",
+    "¿Es divisible por 5 y por 2 a la vez?"
+  ],
+  divisibilidad_solo: [
+    "¿Es divisible por 2?",
+    "¿Es divisible por 3?",
+    "¿Es divisible por 4?",
+    "¿Es divisible por 5?",
+    "¿Es divisible por 6?",
+    "¿Es divisible por 10?"
+  ]
+};
+
+let puntos = 50;
+let total = 0;
+let rondaActiva = true;
+let contadorPreguntas = 0;
+let esperandoRespuesta = false;
+let temaActivo = "numeros";
+let modoJuego = "grupal";       // "grupal" | "solitario"
+let numeroSecreto = null;
+let intentosRestantes = 3;
+
+// Historial y racha
+let historialRondas = [];
+let rachaActual = 0;
+let rachaMáxima = 0;
+
+// ── EVALUADOR DE PREGUNTAS para modo solitario ──
+const evaluadores = {
+  "¿Es un número par?"                              : n => n % 2 === 0,
+  "¿Es múltiplo de 3?"                              : n => n % 3 === 0,
+  "¿Es mayor que 20?"                               : n => n > 20,
+  "¿Tiene más de 4 divisores?"                      : n => divisores(n) > 4,
+  "¿Es un cuadrado perfecto?"                       : n => Number.isInteger(Math.sqrt(n)),
+  "¿Es múltiplo de 5?"                              : n => n % 5 === 0,
+  "¿Es mayor que 50?"                               : n => n > 50,
+  "¿Es menor que 10?"                               : n => n < 10,
+  "¿Es un número primo?"                            : n => esPrimo(n),
+  "¿Es múltiplo de 4?"                              : n => n % 4 === 0,
+  "¿Es menor que 100?"                              : n => n < 100,
+  "¿Tiene exactamente 2 divisores?"                 : n => divisores(n) === 2,
+  "¿Es múltiplo de 6?"                              : n => n % 6 === 0,
+  "¿La suma de sus dígitos es mayor que 5?"         : n => sumaDigitos(n) > 5,
+  "¿Es un número impar?"                            : n => n % 2 !== 0,
+  "¿Es divisible por 7?"                            : n => n % 7 === 0,
+  "¿Está entre 10 y 50?"                            : n => n >= 10 && n <= 50,
+  "¿Es mayor que 30?"                               : n => n > 30,
+  "¿Es un múltiplo de 10?"                          : n => n % 10 === 0,
+  "¿Tiene algún dígito repetido?"                   : n => tieneDigitoRepetido(n),
+  // Rangos
+  "¿Es menor que 50?"                               : n => n < 50,
+  "¿Es mayor que 10?"                               : n => n > 10,
+  "¿Es mayor que 40?"                               : n => n > 40,
+  "¿Es menor que 30?"                               : n => n < 30,
+  "¿Está entre 20 y 40?"                            : n => n >= 20 && n <= 40,
+  "¿Está entre 40 y 70?"                            : n => n >= 40 && n <= 70,
+  "¿Está entre 50 y 80?"                            : n => n >= 50 && n <= 80,
+  "¿Está entre 1 y 20?"                             : n => n >= 1 && n <= 20,
+  "¿Está entre 60 y 99?"                            : n => n >= 60 && n <= 99,
+  "¿Es mayor que 70?"                               : n => n > 70,
+  "¿Es menor que 20?"                               : n => n < 20,
+  "¿Es mayor que 80?"                               : n => n > 80,
+  "¿Es menor que 40?"                               : n => n < 40,
+  "¿Es mayor que 60?"                               : n => n > 60,
+  // Decenas
+  "¿Empieza con el dígito 1?"                       : n => String(n)[0] === "1",
+  "¿Empieza con el dígito 2?"                       : n => String(n)[0] === "2",
+  "¿Empieza con el dígito 3?"                       : n => String(n)[0] === "3",
+  "¿Empieza con el dígito 4?"                       : n => String(n)[0] === "4",
+  "¿Empieza con el dígito 5?"                       : n => String(n)[0] === "5",
+  "¿Empieza con el dígito 6?"                       : n => String(n)[0] === "6",
+  "¿Empieza con el dígito 7?"                       : n => String(n)[0] === "7",
+  "¿Empieza con el dígito 8?"                       : n => String(n)[0] === "8",
+  "¿Empieza con el dígito 9?"                       : n => String(n)[0] === "9",
+  "¿Termina en 0?"                                  : n => n % 10 === 0,
+  "¿Termina en 5?"                                  : n => n % 10 === 5,
+  "¿Termina en un número par?"                      : n => (n % 10) % 2 === 0,
+  "¿Termina en un número impar?"                    : n => (n % 10) % 2 !== 0,
+  // Suma de dígitos
+  "¿La suma de sus dígitos es menor que 5?"         : n => sumaDigitos(n) < 5,
+  "¿La suma de sus dígitos es par?"                 : n => sumaDigitos(n) % 2 === 0,
+  "¿La suma de sus dígitos es mayor que 10?"        : n => sumaDigitos(n) > 10,
+  "¿La suma de sus dígitos es 9?"                   : n => sumaDigitos(n) === 9,
+  "¿La suma de sus dígitos es menor que 10?"        : n => sumaDigitos(n) < 10,
+  // Divisibilidad extra
+  "¿Es múltiplo de 8?"                              : n => n % 8 === 0,
+  "¿Es múltiplo de 9?"                              : n => n % 9 === 0,
+  "¿Es múltiplo de 11?"                             : n => n % 11 === 0,
+  "¿Es múltiplo de 12?"                             : n => n % 12 === 0,
+  "¿Es múltiplo de 7?"                              : n => n % 7 === 0,
+  "¿Es divisible por 2 y por 3?"                    : n => n % 2 === 0 && n % 3 === 0,
+  "¿Es un número de dos cifras?"                    : n => n >= 10 && n <= 99,
+  "¿Es un número de una cifra?"                     : n => n >= 1 && n <= 9,
+  "¿Tiene más de 6 divisores?"                      : n => divisores(n) > 6,
+  "¿Es divisible por 4 y por 3?"                    : n => n % 4 === 0 && n % 3 === 0,
+  "¿Es divisible por 2?"                            : n => n % 2 === 0,
+  "¿Es divisible por 3?"                            : n => n % 3 === 0,
+  "¿Es divisible por 4?"                            : n => n % 4 === 0,
+  "¿Es divisible por 5?"                            : n => n % 5 === 0,
+  "¿Es divisible por 6?"                            : n => n % 6 === 0,
+  "¿Es divisible por 10?"                           : n => n % 10 === 0,
+};
+
+function divisores(n){
+  n = Math.abs(n);
+  let c = 0;
+  for(let i = 1; i <= n; i++) if(n % i === 0) c++;
+  return c;
+}
+
+function esPrimo(n){
+  n = Math.abs(n);
+  if(n < 2) return false;
+  for(let i = 2; i <= Math.sqrt(n); i++) if(n % i === 0) return false;
+  return true;
+}
+
+function sumaDigitos(n){
+  return String(Math.abs(n)).split('').reduce((s, d) => s + parseInt(d), 0);
+}
+
+function tieneDigitoRepetido(n){
+  const d = String(Math.abs(n)).split('');
+  return d.length !== new Set(d).size;
+}
+
+function seleccionarModo(modo){
+  modoJuego = modo;
+  document.getElementById("btnModoGrupal").classList.toggle("activo", modo === "grupal");
+  document.getElementById("btnModoSolitario").classList.toggle("activo", modo === "solitario");
+  document.getElementById("configSolitario").style.display = modo === "solitario" ? "block" : "none";
+  if(modo === "solitario"){
+    document.getElementById("tema").disabled = true;
+  } else {
+    document.getElementById("tema").disabled = false;
+  }
+}
+
+function bloquearCartas(){
+  document.querySelectorAll("#cartas button:not(:disabled)").forEach(b => b.disabled = true);
+}
+
+function desbloquearCartas(){
+  const limite = modoJuego === "solitario" ? 7 : 4;
+  const usadas = document.querySelectorAll("#cartas button.usada").length;
+  const disponibles = document.querySelectorAll("#cartas button:not(.usada)");
+
+  if(usadas >= limite){
+    disponibles.forEach(b => {
+      b.disabled = true;
+      b.classList.add("bloqueada-juego");
+      b.innerText = "🔒 " + b.dataset.pregunta;
+    });
+  } else {
+    disponibles.forEach(b => b.disabled = false);
+  }
+}
+
+function iniciar(){
+  // Leer modo desde el DOM (fuente de verdad)
+  modoJuego = document.getElementById("btnModoSolitario").classList.contains("activo") ? "solitario" : "grupal";
+
+  // Forzar tema a solitario si aplica
+  if(modoJuego === "solitario") {
+    temaActivo = document.getElementById("temaSolitario").value;
+  } else {
+    temaActivo = document.getElementById("tema").value || "numeros";
+  }
+
+  const nombres = { numeros:"Números", ecuaciones:"Ecuaciones", funciones:"Funciones", inecuaciones:"Inecuaciones", fracciones:"Fracciones y decimales", geometria:"Geometría", divisibilidad:"Reglas de divisibilidad", divisibilidad_solo:"Reglas de divisibilidad" };
+
+  document.getElementById("inicio").classList.remove("active");
+  document.getElementById("juego").classList.add("active");
+
+  const modoLabel = modoJuego === "solitario" ? "🕵️ Solitario — " : "👥 ";
+  document.getElementById("tituloTema").innerText = modoLabel + nombres[tema];
+
+  if(modoJuego === "solitario"){
+    sortearNumeroSecreto();
+    generarPistaInicial();
+    document.getElementById("seccionPistaPersonalizada").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "block";
+  } else {
+    document.getElementById("seccionPistaPersonalizada").style.display = "block";
+    document.getElementById("seccionPistaInicial").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "none";
+  }
+
+  cargarCartas(tema);
+}
+
+function sortearNumeroSecreto(){
+  const diff = document.getElementById("dificultadSolitario") ? document.getElementById("dificultadSolitario").value : "detective";
+  if (diff === "novato") {
+    numeroSecreto = Math.floor(Math.random() * 50) + 1;
+  } else if (diff === "sherlock") {
+    numeroSecreto = Math.floor(Math.random() * 2000) - 999;
+    if (numeroSecreto === 0) numeroSecreto = 1;
+  } else {
+    numeroSecreto = Math.floor(Math.random() * 100) + 1;
+  }
+  console.log("[Solitario] Número secreto sorteado:", numeroSecreto, "| modo:", modoJuego, "| dif:", diff);
+}
+
+function generarPistaInicial() {
+  if (modoJuego !== "solitario") return;
+  
+  const basicas = [
+    "¿Es un número par?",
+    "¿Es múltiplo de 3?",
+    "¿Es mayor que 10?",
+    "¿Es un número positivo?"
+  ];
+  
+  const p = basicas[Math.floor(Math.random() * basicas.length)];
+  let resp = false;
+  if (p === "¿Es un número positivo?") {
+    resp = numeroSecreto > 0;
+  } else {
+    resp = evaluadores[p](numeroSecreto);
+  }
+  
+  const afirmacion = resp ? "SÍ" : "NO";
+  
+  const el = document.getElementById("seccionPistaInicial");
+  if(el) {
+    document.getElementById("pistaInicial").innerText = `Sabemos que a la pregunta "${p}", la respuesta es ${afirmacion}.`;
+    el.style.display = "block";
+  }
+}
+
+function cargarCartas(tema){
+  const contenedor = document.getElementById("cartas");
+  contenedor.innerHTML = "";
+
+  const cantCartas = modoJuego === "solitario" ? 8 : 5;
+
+  const todas = [...mazos[tema]];
+  for(let i = todas.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [todas[i], todas[j]] = [todas[j], todas[i]];
+  }
+  const seleccion = todas.slice(0, cantCartas);
+
+  seleccion.forEach((p)=>{
+    const btn = document.createElement("button");
+    btn.className = "carta-pista";
+    btn.innerText = p;
+    btn.dataset.pregunta = p;
+    btn.onclick = ()=> agregarFilaPregunta(p, btn);
+    contenedor.appendChild(btn);
+  });
+}
+
+function actualizarBarra(){
+  const fill = document.getElementById("barrapuntos");
+  if(fill) fill.style.width = (puntos / 50 * 100) + "%";
+}
+
+function agregarFilaPregunta(pregunta, btn, evaluadorPersonalizado = null){
+  if(!rondaActiva || esperandoRespuesta) return;
+
+  // Marcar carta como usada permanentemente
+  if(btn){
+    btn.disabled = true;
+    btn.classList.add("usada");
+    btn.classList.add("bloqueada-juego");
+  }
+
+  contadorPreguntas++;
+  puntos--;
+  document.getElementById("puntos").innerText = puntos;
+  actualizarBarra();
+
+  const fila = document.createElement("tr");
+  fila.innerHTML = `
+    <td>${contadorPreguntas}</td>
+    <td style="text-align:left">${pregunta}</td>
+    <td></td>
+    <td><input type="text" class="sospechosos-input" placeholder="Ej: 12, 18..."></td>
+  `;
+
+  const tdResp = fila.cells[2];
+
+  if(modoJuego === "solitario"){
+    console.log("[Solitario] Evaluando:", pregunta, "| número:", numeroSecreto);
+    const evaluador = evaluadorPersonalizado || evaluadores[pregunta];
+    console.log("[Solitario] Evaluador encontrado:", !!evaluador);
+    const respuesta = evaluador ? evaluador(numeroSecreto) : null;
+    console.log("[Solitario] Respuesta:", respuesta);
+
+    if(respuesta === null){
+      tdResp.innerHTML = '<span class="respuesta-auto" style="color:var(--texto-suave)">—</span>';
+    } else if(respuesta){
+      tdResp.innerHTML = '<span class="respuesta-auto si">✓ SÍ</span>';
+      fila.classList.add("respuesta-si");
+    } else {
+      tdResp.innerHTML = '<span class="respuesta-auto no">✗ NO</span>';
+      fila.classList.add("respuesta-no");
+    }
+
+    desbloquearCartas();
+
+  } else {
+    // Modo grupal: botones manuales
+    esperandoRespuesta = true;
+    bloquearCartas();
+    document.getElementById("esperandoBadge").classList.add("visible");
+
+    const si = document.createElement("button");
+    si.innerText = "Sí";
+    si.className = "btn-resp btn-si";
+    si.onclick = ()=>{
+      tdResp.innerHTML = '<span class="badge-si">SÍ</span>';
+      fila.classList.add("respuesta-si");
+      esperandoRespuesta = false;
+      document.getElementById("esperandoBadge").classList.remove("visible");
+      desbloquearCartas();
+    };
+
+    const no = document.createElement("button");
+    no.innerText = "No";
+    no.className = "btn-resp btn-no";
+    no.style.marginLeft = "4px";
+    no.onclick = ()=>{
+      tdResp.innerHTML = '<span class="badge-no">NO</span>';
+      fila.classList.add("respuesta-no");
+      esperandoRespuesta = false;
+      document.getElementById("esperandoBadge").classList.remove("visible");
+      desbloquearCartas();
+    };
+
+    tdResp.appendChild(si);
+    tdResp.appendChild(no);
+  }
+
+  document.getElementById("tabla").appendChild(fila);
+}
+
+function arriesgar(){
+  if(!rondaActiva) return;
+  const hip = document.getElementById("hipotesis").value.trim();
+  if(!hip) return;
+
+  if(modoJuego === "solitario"){
+    const hipNum = parseInt(hip);
+    const acerto = hipNum === numeroSecreto;
+
+    if(acerto) {
+      rondaActiva = false;
+      let bonus = false;
+      if(contadorPreguntas === 3){
+        puntos += 5;
+        bonus = true;
+        document.getElementById("puntos").innerText = puntos;
+        actualizarBarra();
+      }
+      window._bonusActivo = bonus;
+
+      document.getElementById("modalHipotesis").innerText = hip;
+      document.getElementById("numeroSecretoRevelado").innerText = numeroSecreto;
+      document.getElementById("numeroSecretoRevelado").parentElement.style.display = "block";
+
+      document.getElementById("modalFase1").classList.remove("activa");
+      document.getElementById("modalFase2").classList.remove("activa");
+      document.getElementById("modalBox").className = "modal";
+      document.getElementById("modalOverlay").classList.add("visible");
+
+      setTimeout(() => validarHipotesis(true), 600);
+
+    } else {
+      intentosRestantes--;
+      if (intentosRestantes > 0) {
+        // Falló pero tiene intentos
+        puntos = Math.max(0, puntos - 2);
+        document.getElementById("puntos").innerText = puntos;
+        actualizarBarra();
+        
+        const msg = hipNum > numeroSecreto ? "MENOR" : "MAYOR";
+        const fb = document.getElementById("feedbackIntentos");
+        fb.innerText = `❌ Incorrecto. El número es ${msg} que ${hipNum}. Quedan ${intentosRestantes} intentos. (-2 pts)`;
+        fb.style.display = "block";
+        setTimeout(() => fb.style.display = "none", 4000);
+        document.getElementById("hipotesis").value = "";
+      } else {
+        // Falló y no tiene intentos
+        rondaActiva = false;
+        window._bonusActivo = false;
+        document.getElementById("modalHipotesis").innerText = hip;
+        document.getElementById("numeroSecretoRevelado").innerText = numeroSecreto;
+        document.getElementById("numeroSecretoRevelado").parentElement.style.display = "block";
+
+        document.getElementById("modalFase1").classList.remove("activa");
+        document.getElementById("modalFase2").classList.remove("activa");
+        document.getElementById("modalBox").className = "modal";
+        document.getElementById("modalOverlay").classList.add("visible");
+
+        setTimeout(() => validarHipotesis(false), 600);
+      }
+    }
+
+  } else {
+    // Modo grupal
+    rondaActiva = false;
+    let bonus = false;
+    if(contadorPreguntas === 3){
+      puntos += 5;
+      bonus = true;
+      document.getElementById("puntos").innerText = puntos;
+      actualizarBarra();
+    }
+    window._bonusActivo = bonus;
+
+    document.getElementById("modalHipotesis").innerText = hip || "(sin hipótesis)";
+    document.getElementById("numeroSecretoRevelado").parentElement.style.display = "none";
+
+    document.getElementById("modalFase1").classList.add("activa");
+    document.getElementById("modalFase2").classList.remove("activa");
+    document.getElementById("modalFase3").classList.remove("activa");
+    document.getElementById("modalBox").className = "modal";
+
+    document.getElementById("modalOverlay").classList.add("visible");
+  }
+}
+
+function validarHipotesis(acerto){
+  let ptsRonda = acerto ? puntos : 0;
+  total += ptsRonda;
+  document.getElementById("total").innerText = total;
+
+  // Registrar en historial
+  let difLabel = "Grupal";
+  if (modoJuego === "solitario") {
+    const diffVal = document.getElementById("dificultadSolitario") ? document.getElementById("dificultadSolitario").value : "detective";
+    const labels = { novato: "Novato", detective: "Detective", sherlock: "Sherlock" };
+    difLabel = labels[diffVal] || "Detective";
+  }
+  historialRondas.push({ preguntas: contadorPreguntas, puntos: ptsRonda, acerto: acerto, modo: modoJuego, dificultad: difLabel });
+
+  // Racha
+  if(acerto){
+    rachaActual++;
+    if(rachaActual > rachaMáxima) rachaMáxima = rachaActual;
+  } else {
+    rachaActual = 0;
+  }
+
+  // Guardar en Perfil (localStorage)
+  const stats = JSON.parse(localStorage.getItem('detectives_stats')) || { casosResueltos: 0, rachaMaxima: 0, sherlockResueltos: 0, ahorrador: false, puntosTotales: 0 };
+  if (acerto) {
+    stats.casosResueltos++;
+    stats.puntosTotales += ptsRonda;
+    if (rachaActual > stats.rachaMaxima) stats.rachaMaxima = rachaActual;
+    if (contadorPreguntas === 1) stats.ahorrador = true;
+    if (modoJuego === "solitario" && difLabel === "Sherlock") stats.sherlockResueltos++;
+  }
+  localStorage.setItem('detectives_stats', JSON.stringify(stats));
+
+  // Configurar fase 2
+  const modalBox = document.getElementById("modalBox");
+  const icono    = document.getElementById("modalIcono");
+  const titulo   = document.getElementById("modalTitulo");
+  const ptsEl    = document.getElementById("modalPuntos");
+  const label    = document.getElementById("modalLabelPuntos");
+  const totalEl  = document.getElementById("modalTotal");
+
+  if(acerto){
+    modalBox.classList.add("estado-acerto");
+    icono.innerText  = window._bonusActivo ? "🔥" : "🏆";
+    titulo.innerText = window._bonusActivo ? "¡Bonus + caso resuelto!" : "¡Caso resuelto!";
+    ptsEl.className  = "modal-puntos color-verde";
+    ptsEl.innerText  = "+" + ptsRonda;
+    label.innerText  = "puntos ganados";
+  } else {
+    modalBox.classList.add("estado-fallo");
+    icono.innerText  = "💀";
+    titulo.innerText = "Caso sin resolver";
+    ptsEl.className  = "modal-puntos color-rojo";
+    ptsEl.innerText  = "0";
+    label.innerText  = "puntos esta ronda";
+  }
+
+  totalEl.innerHTML = `Total acumulado: <span>${total}</span>`;
+
+  // Mostrar racha si >= 2
+  const rachaEl = document.getElementById("rachaActual");
+  if(rachaActual >= 2){
+    rachaEl.innerHTML = `🔥 Racha: <strong>${rachaActual}</strong> aciertos seguidos`;
+    rachaEl.style.display = "block";
+  } else {
+    rachaEl.style.display = "none";
+  }
+
+  document.getElementById("modalFase1").classList.remove("activa");
+  document.getElementById("modalFase2").classList.add("activa");
+}
+
+function cerrarModalNuevaRonda(){
+  document.getElementById("modalOverlay").classList.remove("visible");
+  nuevaRonda();
+}
+
+function nuevaRonda(){
+  puntos = 50;
+  contadorPreguntas = 0;
+  rondaActiva = true;
+  esperandoRespuesta = false;
+  intentosRestantes = 3;
+
+  document.getElementById("tabla").innerHTML = "";
+  document.getElementById("puntos").innerText = puntos;
+  document.getElementById("esperandoBadge").classList.remove("visible");
+  document.getElementById("deducciones").value = "";
+  document.getElementById("hipotesis").value = "";
+  document.getElementById("feedbackIntentos").style.display = "none";
+  actualizarBarra();
+
+  if(modoJuego === "solitario"){
+    sortearNumeroSecreto();
+    generarPistaInicial();
+    document.getElementById("seccionPistaPersonalizada").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "block";
+  } else {
+    document.getElementById("seccionPistaInicial").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "none";
+  }
+
+  cargarCartas(temaActivo);
+}
+
+function construirPregunta() {
+  const tipo = document.getElementById("constTipo").value;
+  const valor = parseInt(document.getElementById("constValor").value);
+  if (isNaN(valor)) return;
+  
+  let texto = "";
+  let evaluador = null;
+  
+  if (tipo === "multiplo") {
+    texto = `¿Es múltiplo de ${valor}?`;
+    evaluador = n => n % valor === 0;
+  } else if (tipo === "mayor") {
+    texto = `¿Es mayor que ${valor}?`;
+    evaluador = n => n > valor;
+  } else if (tipo === "menor") {
+    texto = `¿Es menor que ${valor}?`;
+    evaluador = n => n < valor;
+  } else if (tipo === "termina") {
+    texto = `¿Termina en ${valor}?`;
+    evaluador = n => Math.abs(n) % 10 === valor;
+  }
+  
+  agregarFilaPregunta(texto, null, evaluador);
+  document.getElementById("constValor").value = "";
+}
+
+function agregarPregunta(){
+  const input = document.getElementById("nuevaPregunta");
+  const texto = input.value.trim();
+  if(!texto) return;
+  agregarFilaPregunta(texto, null);
+  input.value = "";
+}
+
+function verResumen(){
+  const n = historialRondas.length;
+  if(n === 0) return;
+
+  const aciertos = historialRondas.filter(r => r.acerto).length;
+  const pctAciertos = Math.round(aciertos / n * 100);
+  const promPreguntas = (historialRondas.reduce((s, r) => s + r.preguntas, 0) / n).toFixed(1);
+  const promPuntos = (historialRondas.reduce((s, r) => s + r.puntos, 0) / n).toFixed(1);
+
+  // Armar filas del historial
+  let filas = historialRondas.map((r, i) => `
+    <div class="resumen-fila ${r.acerto ? 'resumen-ok' : 'resumen-fail'}" style="flex-direction:column; align-items:flex-start;">
+      <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="resumen-num">R${i+1}</span>
+          <span class="resumen-icono">${r.acerto ? '✓' : '✗'}</span>
+          <span class="resumen-preguntas">${r.preguntas} pista${r.preguntas !== 1 ? 's' : ''}</span>
+        </div>
+        <span class="resumen-pts" style="font-weight:bold;">${r.puntos > 0 ? '+' + r.puntos : '0'} pts</span>
+      </div>
+      <div style="font-size:0.7rem; color:var(--texto-suave); margin-top:4px;">
+        Modo: ${r.modo === 'solitario' ? '🕵️ Solitario (' + r.dificultad + ')' : '👥 Grupal'}
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById("resumenStats").innerHTML = `
+    <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:8px;">
+      <div class="stat-item"><span class="stat-num">${total}</span><span class="stat-label">Puntaje Total</span></div>
+      <div class="stat-item"><span class="stat-num">${pctAciertos}%</span><span class="stat-label">Precisión</span></div>
+      <div class="stat-item"><span class="stat-num">${rachaMáxima}</span><span class="stat-label">Mejor Racha</span></div>
+    </div>
+    <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:16px;">
+      <div class="stat-item"><span class="stat-num">${n}</span><span class="stat-label">Rondas</span></div>
+      <div class="stat-item"><span class="stat-num">${promPuntos}</span><span class="stat-label">Pts/Ronda</span></div>
+      <div class="stat-item"><span class="stat-num">${promPreguntas}</span><span class="stat-label">Pistas/Ronda</span></div>
+    </div>
+    <div class="resumen-lista">${filas}</div>
+  `;
+
+  document.getElementById("modalFase2").classList.remove("activa");
+  document.getElementById("modalFase3").classList.add("activa");
+  document.getElementById("modalBox").className = "modal";
+}
+
+function reiniciar(){
+  historialRondas = [];
+  rachaActual = 0;
+  rachaMáxima = 0;
+  window.onbeforeunload = null; // Quitar protección al reiniciar
+  location.reload();
+}
+
+function intentarReiniciar() {
+  if (rondaActiva && contadorPreguntas > 0) {
+    alert("⚠️ No puedes reiniciar el juego entero mientras tienes una misión activa en curso. Termina la misión actual o abandónala (Nueva misión) primero.");
+    return;
+  }
+  if (confirm("¿Estás seguro de que quieres reiniciar TODO el juego? Se borrará tu puntaje total y la racha de esta sesión.")) {
+    reiniciar();
+  }
+}
+
+function intentarNuevaRonda() {
+  if (rondaActiva && contadorPreguntas > 0) {
+    if (!confirm("La misión actual aún no ha terminado. ¿Estás seguro de abandonarla y empezar una nueva? Perderás el progreso de esta ronda.")) {
+      return;
+    }
+  }
+  nuevaRonda();
+}
+
+window.addEventListener("beforeunload", function (e) {
+  if (total > 0 || (rondaActiva && contadorPreguntas > 0)) {
+    var confirmationMessage = '¿Seguro que quieres salir? Se perderá todo el progreso de la sesión.';
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+  }
+});
+
+function abrirPerfil() {
+  const stats = JSON.parse(localStorage.getItem('detectives_stats')) || { casosResueltos: 0, rachaMaxima: 0, sherlockResueltos: 0, ahorrador: false, puntosTotales: 0 };
+
+  document.getElementById("perfilStats").innerHTML = `
+    <div><div style="font-size:1.5rem; color:var(--oro); font-weight:bold;">${stats.casosResueltos}</div>Casos</div>
+    <div><div style="font-size:1.5rem; color:var(--oro); font-weight:bold;">${stats.puntosTotales}</div>Puntos</div>
+    <div><div style="font-size:1.5rem; color:var(--oro); font-weight:bold;">${stats.rachaMaxima}</div>Racha Máx</div>
+  `;
+
+  const logrosDef = [
+    { id: 'primer', nombre: 'Novato Dedicado', desc: 'Resuelve tu primer caso.', icono: '🎖️', unlock: stats.casosResueltos >= 1 },
+    { id: 'diez', nombre: 'Detective Experto', desc: 'Resuelve 10 casos en total.', icono: '🕵️', unlock: stats.casosResueltos >= 10 },
+    { id: 'racha', nombre: 'Racha Imparable', desc: 'Alcanza una racha de 3 aciertos seguidos.', icono: '🔥', unlock: stats.rachaMaxima >= 3 },
+    { id: 'ahorrador', nombre: 'Ahorrador Extremo', desc: 'Resuelve un caso pidiendo solo 1 pista.', icono: '💡', unlock: stats.ahorrador },
+    { id: 'sherlock', nombre: 'Mente Maestra', desc: 'Resuelve un caso en dificultad Sherlock.', icono: '🧠', unlock: stats.sherlockResueltos >= 1 }
+  ];
+
+  document.getElementById("perfilLogros").innerHTML = logrosDef.map(l => `
+    <div style="display:flex; align-items:center; gap:12px; padding:10px; background:var(--gris-panel); border:1px solid var(--gris-borde); border-radius:6px; opacity: ${l.unlock ? '1' : '0.4'};">
+      <div style="font-size:1.8rem; filter: ${l.unlock ? 'none' : 'grayscale(100%)'};">${l.unlock ? l.icono : '🔒'}</div>
+      <div>
+        <div style="font-weight:bold; color:var(--oro); font-size:0.95rem;">${l.nombre}</div>
+        <div style="font-size:0.75rem; color:var(--texto-suave);">${l.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById("modalPerfilOverlay").classList.add("visible");
+}
+
+function cerrarPerfil() {
+  document.getElementById("modalPerfilOverlay").classList.remove("visible");
+}
+
+</script>
+
+<script>
+// 🔊 SONIDOS SIMPLES (usando Web Audio API)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playBeep(freq, duration){
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.frequency.value = freq;
+  osc.type = "sine";
+
+  gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+
+  osc.start();
+  setTimeout(()=>osc.stop(), duration);
+}
+
+function sonidoClick(){ playBeep(600, 100); }
+function sonidoSi(){ playBeep(800, 150); }
+function sonidoNo(){ playBeep(200, 200); }
+function sonidoWin(){ playBeep(1000, 300); }
+
+// 👉 Integrar sonidos en acciones clave
+
+document.addEventListener("click", e => {
+  if(e.target.tagName === "BUTTON") sonidoClick();
+});
+
+// Reemplazar funciones existentes para agregar sonido
+const originalArriesgar = arriesgar;
+arriesgar = function(){
+  sonidoWin();
+  originalArriesgar();
+};
+
+// Cuando respondan sí/no (esto se engancha en botones dinámicos)
+document.addEventListener("click", function(e){
+  if(e.target.classList.contains("btn-si")) sonidoSi();
+  if(e.target.classList.contains("btn-no")) sonidoNo();
+});
+</script>
+
+</body>
+</html>
