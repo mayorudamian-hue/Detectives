@@ -1026,6 +1026,20 @@ textarea#deducciones::placeholder { color: var(--texto-suave); }
     </div>
   </div>
 
+  <div class="seccion" id="seccionPistaConstructor" style="display:none">
+    <div class="seccion-titulo">🛠 Construir Pista (Cuesta 1 pt)</div>
+    <div class="input-row" style="gap:4px;">
+      <select id="constTipo" style="margin-bottom:0; flex:2;">
+        <option value="multiplo">¿Es múltiplo de...?</option>
+        <option value="mayor">¿Es mayor que...?</option>
+        <option value="menor">¿Es menor que...?</option>
+        <option value="termina">¿Termina en...?</option>
+      </select>
+      <input id="constValor" type="number" placeholder="Ej: 5" style="width:70px; flex:1;">
+      <button class="btn-secundario" onclick="construirPregunta()" style="flex:1;">Preguntar</button>
+    </div>
+  </div>
+
   <div class="seccion">
     <div class="seccion-titulo">📋 Registro de pistas</div>
     <table>
@@ -1043,10 +1057,11 @@ textarea#deducciones::placeholder { color: var(--texto-suave); }
 
   <div class="seccion">
     <div class="seccion-titulo">🎯 Hipótesis final</div>
-    <div class="hipotesis-wrap">
+    <div class="hipotesis-wrap" style="margin-bottom:4px;">
       <input id="hipotesis" type="text" placeholder="Tu conclusión...">
       <button class="btn-revelar" onclick="arriesgar()">🔍 Revelar</button>
     </div>
+    <div id="feedbackIntentos" style="color:var(--rojo); font-size:0.8rem; font-weight:bold; display:none; margin-bottom:8px;"></div>
   </div>
 
   <div class="acciones-row">
@@ -1314,6 +1329,7 @@ let esperandoRespuesta = false;
 let temaActivo = "numeros";
 let modoJuego = "grupal";       // "grupal" | "solitario"
 let numeroSecreto = null;
+let intentosRestantes = 3;
 
 // Historial y racha
 let historialRondas = [];
@@ -1467,9 +1483,11 @@ function iniciar(){
     sortearNumeroSecreto();
     generarPistaInicial();
     document.getElementById("seccionPistaPersonalizada").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "block";
   } else {
     document.getElementById("seccionPistaPersonalizada").style.display = "block";
     document.getElementById("seccionPistaInicial").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "none";
   }
 
   cargarCartas(tema);
@@ -1543,7 +1561,7 @@ function actualizarBarra(){
   if(fill) fill.style.width = (puntos / 10 * 100) + "%";
 }
 
-function agregarFilaPregunta(pregunta, btn){
+function agregarFilaPregunta(pregunta, btn, evaluadorPersonalizado = null){
   if(!rondaActiva || esperandoRespuesta) return;
 
   // Marcar carta como usada permanentemente
@@ -1570,7 +1588,7 @@ function agregarFilaPregunta(pregunta, btn){
 
   if(modoJuego === "solitario"){
     console.log("[Solitario] Evaluando:", pregunta, "| número:", numeroSecreto);
-    const evaluador = evaluadores[pregunta];
+    const evaluador = evaluadorPersonalizado || evaluadores[pregunta];
     console.log("[Solitario] Evaluador encontrado:", !!evaluador);
     const respuesta = evaluador ? evaluador(numeroSecreto) : null;
     console.log("[Solitario] Respuesta:", respuesta);
@@ -1624,40 +1642,80 @@ function agregarFilaPregunta(pregunta, btn){
 }
 
 function arriesgar(){
-  rondaActiva = false;
-
-  let bonus = false;
-  if(contadorPreguntas === 3){
-    puntos += 5;
-    bonus = true;
-    document.getElementById("puntos").innerText = puntos;
-    actualizarBarra();
-  }
-  window._bonusActivo = bonus;
+  if(!rondaActiva) return;
+  const hip = document.getElementById("hipotesis").value.trim();
+  if(!hip) return;
 
   if(modoJuego === "solitario"){
-    // Validar automáticamente comparando hipótesis con número secreto
-    const hip = document.getElementById("hipotesis").value.trim();
     const hipNum = parseInt(hip);
     const acerto = hipNum === numeroSecreto;
 
-    // Mostrar número secreto en el modal
-    document.getElementById("modalHipotesis").innerText = hip || "(sin respuesta)";
-    document.getElementById("numeroSecretoRevelado").innerText = numeroSecreto;
-    document.getElementById("numeroSecretoRevelado").parentElement.style.display = "block";
+    if(acerto) {
+      rondaActiva = false;
+      let bonus = false;
+      if(contadorPreguntas === 3){
+        puntos += 5;
+        bonus = true;
+        document.getElementById("puntos").innerText = puntos;
+        actualizarBarra();
+      }
+      window._bonusActivo = bonus;
 
-    document.getElementById("modalFase1").classList.remove("activa");
-    document.getElementById("modalFase2").classList.remove("activa");
-    document.getElementById("modalBox").className = "modal";
-    document.getElementById("modalOverlay").classList.add("visible");
+      document.getElementById("modalHipotesis").innerText = hip;
+      document.getElementById("numeroSecretoRevelado").innerText = numeroSecreto;
+      document.getElementById("numeroSecretoRevelado").parentElement.style.display = "block";
 
-    // Pequeña pausa dramática antes de revelar
-    setTimeout(() => validarHipotesis(acerto), 600);
+      document.getElementById("modalFase1").classList.remove("activa");
+      document.getElementById("modalFase2").classList.remove("activa");
+      document.getElementById("modalBox").className = "modal";
+      document.getElementById("modalOverlay").classList.add("visible");
+
+      setTimeout(() => validarHipotesis(true), 600);
+
+    } else {
+      intentosRestantes--;
+      if (intentosRestantes > 0) {
+        // Falló pero tiene intentos
+        puntos = Math.max(0, puntos - 2);
+        document.getElementById("puntos").innerText = puntos;
+        actualizarBarra();
+        
+        const msg = hipNum > numeroSecreto ? "MENOR" : "MAYOR";
+        const fb = document.getElementById("feedbackIntentos");
+        fb.innerText = `❌ Incorrecto. El número es ${msg} que ${hipNum}. Quedan ${intentosRestantes} intentos. (-2 pts)`;
+        fb.style.display = "block";
+        setTimeout(() => fb.style.display = "none", 4000);
+        document.getElementById("hipotesis").value = "";
+      } else {
+        // Falló y no tiene intentos
+        rondaActiva = false;
+        window._bonusActivo = false;
+        document.getElementById("modalHipotesis").innerText = hip;
+        document.getElementById("numeroSecretoRevelado").innerText = numeroSecreto;
+        document.getElementById("numeroSecretoRevelado").parentElement.style.display = "block";
+
+        document.getElementById("modalFase1").classList.remove("activa");
+        document.getElementById("modalFase2").classList.remove("activa");
+        document.getElementById("modalBox").className = "modal";
+        document.getElementById("modalOverlay").classList.add("visible");
+
+        setTimeout(() => validarHipotesis(false), 600);
+      }
+    }
 
   } else {
-    // Modo grupal: mostrar hipótesis y esperar validación manual
-    const hip = document.getElementById("hipotesis").value.trim() || "(sin hipótesis)";
-    document.getElementById("modalHipotesis").innerText = hip;
+    // Modo grupal
+    rondaActiva = false;
+    let bonus = false;
+    if(contadorPreguntas === 3){
+      puntos += 5;
+      bonus = true;
+      document.getElementById("puntos").innerText = puntos;
+      actualizarBarra();
+    }
+    window._bonusActivo = bonus;
+
+    document.getElementById("modalHipotesis").innerText = hip || "(sin hipótesis)";
     document.getElementById("numeroSecretoRevelado").parentElement.style.display = "none";
 
     document.getElementById("modalFase1").classList.add("activa");
@@ -1734,23 +1792,53 @@ function nuevaRonda(){
   contadorPreguntas = 0;
   rondaActiva = true;
   esperandoRespuesta = false;
+  intentosRestantes = 3;
 
   document.getElementById("tabla").innerHTML = "";
   document.getElementById("puntos").innerText = puntos;
   document.getElementById("esperandoBadge").classList.remove("visible");
   document.getElementById("deducciones").value = "";
   document.getElementById("hipotesis").value = "";
+  document.getElementById("feedbackIntentos").style.display = "none";
   actualizarBarra();
 
   if(modoJuego === "solitario"){
     sortearNumeroSecreto();
     generarPistaInicial();
     document.getElementById("seccionPistaPersonalizada").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "block";
   } else {
     document.getElementById("seccionPistaInicial").style.display = "none";
+    document.getElementById("seccionPistaConstructor").style.display = "none";
   }
 
   cargarCartas(temaActivo);
+}
+
+function construirPregunta() {
+  const tipo = document.getElementById("constTipo").value;
+  const valor = parseInt(document.getElementById("constValor").value);
+  if (isNaN(valor)) return;
+  
+  let texto = "";
+  let evaluador = null;
+  
+  if (tipo === "multiplo") {
+    texto = `¿Es múltiplo de ${valor}?`;
+    evaluador = n => n % valor === 0;
+  } else if (tipo === "mayor") {
+    texto = `¿Es mayor que ${valor}?`;
+    evaluador = n => n > valor;
+  } else if (tipo === "menor") {
+    texto = `¿Es menor que ${valor}?`;
+    evaluador = n => n < valor;
+  } else if (tipo === "termina") {
+    texto = `¿Termina en ${valor}?`;
+    evaluador = n => Math.abs(n) % 10 === valor;
+  }
+  
+  agregarFilaPregunta(texto, null, evaluador);
+  document.getElementById("constValor").value = "";
 }
 
 function agregarPregunta(){
